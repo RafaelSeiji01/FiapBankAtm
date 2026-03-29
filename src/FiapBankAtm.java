@@ -1,0 +1,181 @@
+import java.util.Scanner;
+
+public class FiapBankAtm {
+
+    public static void main (String[] args) {
+
+        String nomeCopleto;
+        int escolhaInicial;
+        int escolhaMenuPrincipal;
+        String senhaUsuario;
+        String regex ="^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*()\\\\-_+=?><]).{8,}$";
+        String confimarSenha;
+        double saldo = 0;
+        //Z7#pQ2!x
+
+        String nomeSalvo = "";
+        String senhaSalvo = "";
+
+        Scanner input = new Scanner(System.in);
+
+        //logica para repetir o menu inicial
+        while (true) {
+
+            System.out.println("\n---------------------------------------------");
+            System.out.println("          Bem vindo ao FiapBankAtm!");
+            System.out.println();
+            System.out.println(" [ 1 ]   Cadastrar nova conta");
+            System.out.println(" [ 2 ]   Logar conta ja existente");
+            System.out.println(" [ 3 ]   Sair");
+            System.out.println("\n---------------------------------------------");
+            System.out.print("  >> Digite sua opção: ");
+            escolhaInicial = input.nextInt();
+            input.nextLine();
+
+            //Switch para tomada de decisão
+            switch (escolhaInicial) {
+                case 1 :
+                    System.out.println("\n---------------------------------------------");
+                    System.out.println("Para começar uma conta preencha as seguintes informações");
+
+                    System.out.print("Digite aqui o seu nome completo:");
+                    nomeCopleto = input.nextLine();
+
+                    //Metodo para limpar espaços em brancos antes e depois do nome
+                    String NomeCompletoLimpo = "'" + nomeCopleto.trim() + "'";
+
+                    //Metodo para obter o primeiro nome do usurio
+                    String primeiroNome = nomeCopleto.trim().split(" ")[0];
+                    System.out.println();
+                    System.out.println("*----------------------------------------------*");
+                    System.out.println("         Bem vindo " + primeiroNome + " ao FiapBankAtm !");
+                    System.out.println("*----------------------------------------------*");
+                    System.out.println("Crie um senha forte para a sua conta!");
+
+                    //Repetição para criação de senha forte
+                    while ( true) {
+
+                        System.out.println("---------------------------------------------");
+                        System.out.println("A senha deve conter : \n" +
+                                "+ No mínimo 8 caracteres. \n" +
+                                "+ Ao menos um número. \n" +
+                                "+ Ao menos uma letra maiúscula. \n" +
+                                "+ Ao menos um caracter especial");
+                        System.out.println("\n---------------------------------------------");
+                        System.out.print("Sua senha aqui: ");
+                        senhaUsuario = input.nextLine();
+
+                        //verifica as regras de senha
+                        if (senhaUsuario.matches(regex)) {
+
+                            //logica de repetiçao para confirmação de senha
+                            while (true) {
+
+                                System.out.print("Confirme a sua senha: ");
+                                confimarSenha = input.nextLine();
+
+                                if (senhaUsuario.equals(confimarSenha)) {
+
+                                    System.out.println("\n---------------------------------------------");
+                                    System.out.println("           conta criada com sucesso!");
+                                    nomeSalvo = nomeCopleto;
+                                    senhaSalvo = senhaUsuario;
+                                    break;
+                                } else {
+                                    System.out.println("Senha incorreta");
+                                }
+
+                            }
+                            break;
+
+                        } else {
+                            System.out.println("Erro ao criar senha");
+                        }
+
+
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Digite o nome registrado(nome completo) : ");
+                    String nomeLogin = input.nextLine();
+
+                    System.out.print("Digite sua senha: ");
+                    String senhaLogin = input.nextLine();
+
+                    if (nomeLogin.equals(nomeSalvo) && senhaLogin.equals(senhaSalvo)) {
+                        System.out.println("Login realizado com sucesso!");
+
+                        //Repetição para o menu principal
+                        while (true) {
+
+                            System.out.println("\n---------------------------------------------");
+                            System.out.printf("\n Olá, !", nomeSalvo);
+                            System.out.println(" O que você deseja fazer hoje?");
+                            System.out.println();
+
+                            // Menu de Opções
+                            System.out.println("  [ 1 ]  CONSULTAR SALDO");
+                            System.out.println("  [ 2 ]  REALIZAR DEPÓSITO");
+                            System.out.println("  [ 3 ]  REALIZAR SAQUE");
+                            System.out.println("  [ 4 ]  SAIR DO SISTEMA");
+
+                            // Rodapé de Interação
+                            System.out.println("\n---------------------------------------------");
+                            System.out.print(" >> Digite sua opção: ");
+                            escolhaMenuPrincipal = input.nextInt();
+
+                            //Switch para o menu principal da aplicação
+                            switch (escolhaMenuPrincipal) {
+                                case 1 :
+
+                                    System.out.println("\n=============================================");
+                                    System.out.println("           EXTRATO DE CONTA CORRENTE         ");
+                                    System.out.println("=============================================");
+                                    System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
+                                    System.out.println(" STATUS DA CONTA: [ ATIVA ]");
+                                    System.out.println("---------------------------------------------");
+                                    System.out.println("");
+                                    System.out.println("  SALDO DISPONÍVEL: ");
+                                    System.out.printf("  R$ %,.2f%n", saldo);
+                                    System.out.println("");
+                                    System.out.println("Pressione qualquer tecla para voltar...");
+                                    input.nextLine();
+                                    input.nextLine();
+                                    break;
+                                case 2 :
+                                    System.out.println("2");
+                                    break;
+                                case 3 :
+                                    System.out.println("3");
+                                    break;
+                                case 4 :
+                                    System.out.println("Saindo do sistema...");
+                                    return;
+                                default:
+                                    System.out.println("Erro ao digitar opção");
+                                    break;
+                            }
+
+                        }
+
+
+                    } else {
+                        System.out.println("Nome ou senha incorretos");
+                    }
+
+                    break;
+                case 3 :
+                    System.out.println("Saindoo...");
+                    return;
+                default:
+
+                    System.out.println("Escolha não identificada");
+                    break;
+            }
+
+        }
+
+
+    }
+}
