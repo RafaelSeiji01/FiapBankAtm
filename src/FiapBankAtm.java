@@ -7,6 +7,7 @@ public class FiapBankAtm {
         String nomeCopleto;
         int escolhaInicial;
         int escolhaMenuPrincipal;
+        int contadorDeErro = 3;
         String primeiroNome;
         String nomeUser;
         String senhaUsuario;
@@ -26,7 +27,7 @@ public class FiapBankAtm {
         while (true) {
 
             System.out.println("\n---------------------------------------------");
-            System.out.println("          Bem vindo ao FiapBankAtm!");
+            System.out.println("          [ Bem vindo ao FiapBankAtm! ]");
             System.out.println();
             System.out.println(" [ 1 ]   Cadastrar nova conta");
             System.out.println(" [ 2 ]   Logar conta ja existente");
@@ -55,7 +56,7 @@ public class FiapBankAtm {
 
                     System.out.println();
                     System.out.println("*----------------------------------------------*");
-                    System.out.println("         Bem vindo " + primeiroNome + " ao FiapBankAtm !");
+                    System.out.println("         [ Bem vindo " + primeiroNome + " ao FiapBankAtm ! ]");
                     System.out.println("*----------------------------------------------*");
                     System.out.println("Crie um senha forte para a sua conta!");
 
@@ -104,78 +105,38 @@ public class FiapBankAtm {
                     break;
 
                 case 2:
-                    System.out.print("Digite o nome registrado(nome completo) : ");
-                    String nomeLogin = input.nextLine();
 
-                    System.out.print("Digite sua senha: ");
-                    String senhaLogin = input.nextLine();
+                    while (contadorDeErro > 0) {
 
-                    if (nomeLogin.equals(nomeSalvo) && senhaLogin.equals(senhaSalvo)) {
-                        System.out.println("Login realizado com sucesso!");
+                        System.out.print("Digite o nome registrado: ");
+                        String nomeLogin = input.nextLine();
 
-                        //Repetição para o menu principal
-                        while (true) {
+                        System.out.print("Digite sua senha: ");
+                        String senhaLogin = input.nextLine();
 
-                            System.out.println("\n---------------------------------------------");
-                            System.out.printf("\n Olá,%s !", nomeSalvo);
-                            System.out.println(" O que você deseja fazer hoje?");
-                            System.out.println();
+                        if (nomeLogin.equals(nomeSalvo) && senhaLogin.equals(senhaSalvo)) {
+                            System.out.println("Login realizado com sucesso!");
 
-                            System.out.println("  [ 1 ]  CONSULTAR SALDO");
-                            System.out.println("  [ 2 ]  REALIZAR DEPÓSITO");
-                            System.out.println("  [ 3 ]  REALIZAR SAQUE");
-                            System.out.println("  [ 4 ]  SAIR DO SISTEMA");
+                            //Repetição para o menu principal
+                            while (true) {
 
-                            System.out.println("\n---------------------------------------------");
-                            System.out.print(" >> Digite sua opção: ");
-                            escolhaMenuPrincipal = input.nextInt();
+                                System.out.println("\n---------------------------------------------");
+                                System.out.printf("\n Olá,%s !", nomeSalvo);
+                                System.out.println(" O que você deseja fazer hoje?");
+                                System.out.println();
 
-                            //Switch para o menu principal da aplicação
-                            switch (escolhaMenuPrincipal) {
-                                case 1 :
+                                System.out.println("  [ 1 ]  CONSULTAR SALDO");
+                                System.out.println("  [ 2 ]  REALIZAR DEPÓSITO");
+                                System.out.println("  [ 3 ]  REALIZAR SAQUE");
+                                System.out.println("  [ 4 ]  SAIR DO SISTEMA");
 
-                                    System.out.println("\n=============================================");
-                                    System.out.println("           EXTRATO DE CONTA CORRENTE         ");
-                                    System.out.println("=============================================");
-                                    System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
-                                    System.out.println(" STATUS DA CONTA: [ ATIVA ]");
-                                    System.out.println("---------------------------------------------");
-                                    System.out.println("");
-                                    System.out.println("  SALDO DISPONÍVEL: ");
-                                    System.out.printf("  R$ %,.2f%n", saldo);
-                                    System.out.println("");
-                                    System.out.println("Pressione qualquer tecla para voltar...");
-                                    input.nextLine();
-                                    input.nextLine();
-                                    break;
-                                case 2 :
+                                System.out.println("\n---------------------------------------------");
+                                System.out.print(" >> Digite sua opção: ");
+                                escolhaMenuPrincipal = input.nextInt();
 
-                                    while (true) {
-                                        System.out.println("\n=============================================");
-                                        System.out.println("           Depositar na conta                ");
-                                        System.out.println("=============================================");
-                                        System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
-                                        System.out.println(" STATUS DA CONTA: [ ATIVA ]");
-                                        System.out.println("---------------------------------------------");
-                                        System.out.println("");
-                                        System.out.print("  Valor a depositar na conta: R$ ");
-                                        depositar = input.nextDouble();
-
-                                        if (depositar <= 0) {
-                                            System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
-
-                                        } else {
-                                            System.out.println("Deposito realizado!");
-                                            saldo += depositar;
-                                            break;
-                                        }
-
-                                    }
-                                    break;
-
-                                case 3 :
-
-                                    while (true) {
+                                //Switch para o menu principal da aplicação
+                                switch (escolhaMenuPrincipal) {
+                                    case 1 :
 
                                         System.out.println("\n=============================================");
                                         System.out.println("           EXTRATO DE CONTA CORRENTE         ");
@@ -184,49 +145,102 @@ public class FiapBankAtm {
                                         System.out.println(" STATUS DA CONTA: [ ATIVA ]");
                                         System.out.println("---------------------------------------------");
                                         System.out.println("");
-                                        System.out.print("  Valor a sacar : R$");
-                                        sacar = input.nextDouble();
+                                        System.out.println("  SALDO DISPONÍVEL: ");
+                                        System.out.printf("  R$ %,.2f%n", saldo);
+                                        System.out.println("");
+                                        System.out.println("Pressione qualquer tecla para voltar...");
+                                        input.nextLine();
+                                        input.nextLine();
+                                        break;
+                                    case 2 :
 
-                                        //verificador se o valor a sacar é zero ou menor
-                                        if (sacar > 0) {
+                                        while (true) {
+                                            System.out.println("\n=============================================");
+                                            System.out.println("           Depositar na conta                ");
+                                            System.out.println("=============================================");
+                                            System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
+                                            System.out.println(" STATUS DA CONTA: [ ATIVA ]");
+                                            System.out.println("---------------------------------------------");
+                                            System.out.println("");
+                                            System.out.print("  Valor a depositar na conta: R$ ");
+                                            depositar = input.nextDouble();
 
-                                            //verifica se há dinheiro a ser sacado na conta
-                                            if (saldo < sacar) {
-                                                System.out.println("Sem saldo disponivel para sacar");
+                                            if (depositar <= 0) {
+                                                System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
 
                                             } else {
-                                                System.out.printf("Valor de R$%.2f sacado com Sucesso!",sacar);
-                                                saldo -= sacar;
+                                                System.out.println("Deposito realizado!");
+                                                saldo += depositar;
                                                 break;
                                             }
 
-                                        } else if (sacar == 0) {
-                                            System.out.println("Saindo...");
-                                            break;
-
-                                        } else {
-                                            System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
                                         }
+                                        break;
 
-                                    }
-                                    break;
+                                    case 3 :
 
-                                case 4 :
-                                    System.out.println("O FIAP Bank agradece sua preferência!");
-                                    return;
-                                default:
-                                    System.out.println("Erro ao digitar opção");
-                                    break;
+                                        while (true) {
+
+                                            System.out.println("\n=============================================");
+                                            System.out.println("           EXTRATO DE CONTA CORRENTE         ");
+                                            System.out.println("=============================================");
+                                            System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
+                                            System.out.println(" STATUS DA CONTA: [ ATIVA ]");
+                                            System.out.println("---------------------------------------------");
+                                            System.out.println("");
+                                            System.out.print("  Valor a sacar : R$");
+                                            sacar = input.nextDouble();
+
+                                            //verificador se o valor a sacar é zero ou menor
+                                            if (sacar > 0) {
+
+                                                //verifica se há dinheiro a ser sacado na conta
+                                                if (saldo < sacar) {
+                                                    System.out.println("Sem saldo disponivel para sacar");
+
+                                                } else {
+                                                    System.out.printf("Valor de R$%.2f sacado com Sucesso!",sacar);
+                                                    saldo -= sacar;
+                                                    break;
+                                                }
+
+                                            } else if (sacar == 0) {
+                                                System.out.println("Saindo...");
+                                                break;
+
+                                            } else {
+                                                System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
+                                            }
+
+                                        }
+                                        break;
+
+                                    case 4 :
+                                        System.out.println("O FIAP Bank agradece sua preferência!");
+                                        return;
+                                    default:
+                                        System.out.println("Erro ao digitar opção");
+                                        break;
+                                }
+
                             }
 
+                        } else {
+
+                            contadorDeErro--;
+
+                            System.out.println("Nome ou senha incorretos!");
+
+                            if (contadorDeErro > 0) {
+                                System.out.printf("Tentativas restantes: %d\n", contadorDeErro);
+                            } else {
+                                System.out.println("ACESSO BLOQUEADO");
+                            }
                         }
 
-
-                    } else {
-                        System.out.println("Nome ou senha incorretos");
                     }
 
-                    break;
+
                 case 3 :
                     System.out.println("O FIAP Bank agradece sua preferência!");
                     return;
