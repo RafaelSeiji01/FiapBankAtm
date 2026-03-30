@@ -7,9 +7,13 @@ public class FiapBankAtm {
         String nomeCopleto;
         int escolhaInicial;
         int escolhaMenuPrincipal;
+        String primeiroNome;
+        String nomeUser;
         String senhaUsuario;
         String regex ="^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*()\\\\-_+=?><]).{8,}$";
         String confimarSenha;
+        double depositar = 0;
+        double sacar = 0;
         double saldo = 0;
         //Z7#pQ2!x
 
@@ -45,7 +49,10 @@ public class FiapBankAtm {
                     String NomeCompletoLimpo = "'" + nomeCopleto.trim() + "'";
 
                     //Metodo para obter o primeiro nome do usurio
-                    String primeiroNome = nomeCopleto.trim().split(" ")[0];
+                    primeiroNome = nomeCopleto.trim().split(" ")[0];
+
+                    nomeUser = primeiroNome;
+
                     System.out.println();
                     System.out.println("*----------------------------------------------*");
                     System.out.println("         Bem vindo " + primeiroNome + " ao FiapBankAtm !");
@@ -110,17 +117,15 @@ public class FiapBankAtm {
                         while (true) {
 
                             System.out.println("\n---------------------------------------------");
-                            System.out.printf("\n Olá, !", nomeSalvo);
+                            System.out.printf("\n Olá,%s !", nomeSalvo);
                             System.out.println(" O que você deseja fazer hoje?");
                             System.out.println();
 
-                            // Menu de Opções
                             System.out.println("  [ 1 ]  CONSULTAR SALDO");
                             System.out.println("  [ 2 ]  REALIZAR DEPÓSITO");
                             System.out.println("  [ 3 ]  REALIZAR SAQUE");
                             System.out.println("  [ 4 ]  SAIR DO SISTEMA");
 
-                            // Rodapé de Interação
                             System.out.println("\n---------------------------------------------");
                             System.out.print(" >> Digite sua opção: ");
                             escolhaMenuPrincipal = input.nextInt();
@@ -144,13 +149,70 @@ public class FiapBankAtm {
                                     input.nextLine();
                                     break;
                                 case 2 :
-                                    System.out.println("2");
+
+                                    while (true) {
+                                        System.out.println("\n=============================================");
+                                        System.out.println("           Depositar na conta                ");
+                                        System.out.println("=============================================");
+                                        System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
+                                        System.out.println(" STATUS DA CONTA: [ ATIVA ]");
+                                        System.out.println("---------------------------------------------");
+                                        System.out.println("");
+                                        System.out.print("  Valor a depositar na conta: R$ ");
+                                        depositar = input.nextDouble();
+
+                                        if (depositar <= 0) {
+                                            System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
+
+                                        } else {
+                                            System.out.println("Deposito realizado!");
+                                            saldo += depositar;
+                                            break;
+                                        }
+
+                                    }
                                     break;
+
                                 case 3 :
-                                    System.out.println("3");
+
+                                    while (true) {
+
+                                        System.out.println("\n=============================================");
+                                        System.out.println("           EXTRATO DE CONTA CORRENTE         ");
+                                        System.out.println("=============================================");
+                                        System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
+                                        System.out.println(" STATUS DA CONTA: [ ATIVA ]");
+                                        System.out.println("---------------------------------------------");
+                                        System.out.println("");
+                                        System.out.print("  Valor a sacar : R$");
+                                        sacar = input.nextDouble();
+
+                                        //verificador se o valor a sacar é zero ou menor
+                                        if (sacar > 0) {
+
+                                            //verifica se há dinheiro a ser sacado na conta
+                                            if (saldo < sacar) {
+                                                System.out.println("Sem saldo disponivel para sacar");
+
+                                            } else {
+                                                System.out.printf("Valor de R$%.2f sacado com Sucesso!",sacar);
+                                                saldo -= sacar;
+                                                break;
+                                            }
+
+                                        } else if (sacar == 0) {
+                                            System.out.println("Saindo...");
+                                            break;
+
+                                        } else {
+                                            System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
+                                        }
+
+                                    }
                                     break;
+
                                 case 4 :
-                                    System.out.println("Saindo do sistema...");
+                                    System.out.println("O FIAP Bank agradece sua preferência!");
                                     return;
                                 default:
                                     System.out.println("Erro ao digitar opção");
@@ -166,7 +228,7 @@ public class FiapBankAtm {
 
                     break;
                 case 3 :
-                    System.out.println("Saindoo...");
+                    System.out.println("O FIAP Bank agradece sua preferência!");
                     return;
                 default:
 
