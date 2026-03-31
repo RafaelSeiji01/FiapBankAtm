@@ -9,17 +9,16 @@ public class FiapBankAtm {
         int escolhaMenuPrincipal;
         int contadorDeErro = 3;
         String primeiroNome;
-        String nomeUser;
+        String nomeUser = null;
         String senhaUsuario;
         String regex ="^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*()\\\\-_+=?><]).{8,}$";
         String confimarSenha;
         double depositar = 0;
         double sacar = 0;
         double saldo = 0;
-        //Z7#pQ2!x
 
-        String nomeSalvo = "";
-        String senhaSalvo = "";
+        String nomeSalvo = null;
+        String senhaSalvo = null;
 
         Scanner input = new Scanner(System.in);
 
@@ -106,6 +105,7 @@ public class FiapBankAtm {
 
                 case 2:
 
+                    //metodo para bloquear conta caso erre 3 vezes a senha
                     while (contadorDeErro > 0) {
 
                         System.out.print("Digite o nome registrado: ");
@@ -114,6 +114,14 @@ public class FiapBankAtm {
                         System.out.print("Digite sua senha: ");
                         String senhaLogin = input.nextLine();
 
+                        //metodo para tirar valorees nao escritos
+                        if (nomeLogin.isEmpty() || senhaLogin.isEmpty()){
+                            System.out.println("*----------------------------------------------*");
+                            System.out.println("            Nome ou senha nao digitadas");
+                            System.out.println("*----------------------------------------------*");
+                            break;
+                        }
+
                         if (nomeLogin.equals(nomeSalvo) && senhaLogin.equals(senhaSalvo)) {
                             System.out.println("Login realizado com sucesso!");
 
@@ -121,7 +129,7 @@ public class FiapBankAtm {
                             while (true) {
 
                                 System.out.println("\n---------------------------------------------");
-                                System.out.printf("\n Olá,%s !", nomeSalvo);
+                                System.out.printf("\n Olá,%s !", nomeUser);
                                 System.out.println(" O que você deseja fazer hoje?");
                                 System.out.println();
 
@@ -141,7 +149,7 @@ public class FiapBankAtm {
                                         System.out.println("\n=============================================");
                                         System.out.println("           EXTRATO DE CONTA CORRENTE         ");
                                         System.out.println("=============================================");
-                                        System.out.println(" CLIENTE: " + nomeLogin.toUpperCase());
+                                        System.out.println(" CLIENTE: " + nomeUser.toUpperCase());
                                         System.out.println(" STATUS DA CONTA: [ ATIVA ]");
                                         System.out.println("---------------------------------------------");
                                         System.out.println("");
@@ -166,14 +174,16 @@ public class FiapBankAtm {
                                             depositar = input.nextDouble();
 
                                             if (depositar <= 0) {
-                                                System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
+                                                System.out.println("*----------------------------------------------*");
+                                                System.out.println("Valor igual ou menor que zero, impossivel fazer o saque");
+                                                System.out.println("*----------------------------------------------*");
 
                                             } else {
-                                                System.out.println("Deposito realizado!");
+                                                System.out.println("*----------------------------------------------*");
+                                                System.out.println("            DEPOSITO REALIZADO!");
                                                 saldo += depositar;
                                                 break;
                                             }
-
                                         }
                                         break;
 
@@ -196,10 +206,13 @@ public class FiapBankAtm {
 
                                                 //verifica se há dinheiro a ser sacado na conta
                                                 if (saldo < sacar) {
+                                                    System.out.println("*----------------------------------------------*");
                                                     System.out.println("Sem saldo disponivel para sacar");
+                                                    System.out.println("*----------------------------------------------*");
 
                                                 } else {
-                                                    System.out.printf("Valor de R$%.2f sacado com Sucesso!",sacar);
+                                                    System.out.println("*----------------------------------------------*");
+                                                    System.out.printf("Valor de R$%.2f sacado com Sucesso!%n",sacar);
                                                     saldo -= sacar;
                                                     break;
                                                 }
@@ -209,7 +222,9 @@ public class FiapBankAtm {
                                                 break;
 
                                             } else {
+                                                System.out.println("*----------------------------------------------*");
                                                 System.out.println("Valor igual ou menor que zero, impossivel fazer o deposito");
+                                                System.out.println("*----------------------------------------------*");
                                             }
 
                                         }
@@ -229,29 +244,27 @@ public class FiapBankAtm {
 
                             contadorDeErro--;
 
+                            System.out.println("*--------------------ATENÇÃO------------------*");
                             System.out.println("Nome ou senha incorretos!");
 
                             if (contadorDeErro > 0) {
                                 System.out.printf("Tentativas restantes: %d\n", contadorDeErro);
                             } else {
-                                System.out.println("ACESSO BLOQUEADO");
+                                System.out.println("*----------------------------------------------*");
+                                System.out.println("                ACESSO BLOQUEADO");
+                                System.out.println("*----------------------------------------------*");
+                                return;
                             }
                         }
-
                     }
-
-
+                    break;
                 case 3 :
                     System.out.println("O FIAP Bank agradece sua preferência!");
                     return;
                 default:
-
                     System.out.println("Escolha não identificada");
                     break;
             }
-
         }
-
-
     }
 }
