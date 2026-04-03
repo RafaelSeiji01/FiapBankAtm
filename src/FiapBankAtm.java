@@ -128,6 +128,10 @@ public class FiapBankAtm {
                             //Repetição para o menu principal
                             while (true) {
 
+                                //reseta os erros ao acessar a aplicação
+
+                                contadorDeErro = 3;
+
                                 System.out.println("\n---------------------------------------------");
                                 System.out.printf("\n Olá,%s !", nomeUser);
                                 System.out.println(" O que você deseja fazer hoje?");
